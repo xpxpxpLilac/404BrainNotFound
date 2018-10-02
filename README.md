@@ -1,13 +1,13 @@
-# 404BrainNotFound
+# 404BrainNotFound#
 
 
-To-do list:
-Plan :
-=====================Mid break & wk 10=====================
-===============Preparation ==============
-Come up with a scenario
-Select the Data sources that would help fulfil your scenario
-Opinion:kaggle is good
+    To-do list:
+    Plan :
+    =====================Mid break & wk 10=====================
+    ===============Preparation ==============
+    Come up with a scenario
+    Select the Data sources that would help fulfil your scenario
+    Opinion:kaggle is good
 ========================================
 Perform Data Integration and pre-processing if needed .
 Building a machine learning model to fulfil the scenario (using the dataset that you have prepared for training and evaluation)
