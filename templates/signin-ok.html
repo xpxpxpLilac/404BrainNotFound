@@ -21,11 +21,17 @@
     <p><button type="submit">POST</button></p>
   </form>
   <p>{{ data2 }}</p>
-  <form action="/predictions/"+{{pid}} method="GET">
+  <form action="/predictions" method="POST">
     <legend>GET  /prediction/pid:</legend>
-    <p><input name="p_id" value={{p_id}} type="p_id"></p>
+    <p><input name="p_id" placeholder="P_id" type="p_id"></p>
     <p><button type="submit">GET</button></p>
   </form>
   <p>{{ data3 }}</p>
+   <form action="/predictions" method="POST">
+    <legend>DELETE  /prediction/pid:</legend>
+    <p><input name="delete_id" placeholder="P_id" type="delete_id"></p>
+    <p><button type="submit">DELETE</button></p>
+  </form>
+  <p>{{ data4 }}</p>
 </body>
 </html>
