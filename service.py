@@ -122,13 +122,36 @@ class Token(Resource):
 
         username = args.get('username')
         password = args.get('password')
+        user = db.users.find_one({"username": username})
+        print('=============')
+        if not user:
+            api.abort(404, "Username: {} doesn't exist".format(username))
+        if password != user['password']:
+            api.abort(401, "Wrong password")
+        return {"token": auth.generate_token(username)}
 
-        if username == 'admin' and password == 'admin':
-            return {"token": auth.generate_token(username)}
 
-        return {"message": "authorization has been refused for those credentials."}, 401
+    @api.response(200, 'Successful')
+    @api.doc(description="Generates a authentication token")
+    @api.expect(credential_parser, validate=True)
+    def post(self):
+        args = credential_parser.parse_args()
 
+        username = args.get('username')
+        password = args.get('password')
+        user = {'username':username,
+                'password': password
+        }
 
+        posts = db.users
+        try:
+            posts.insert_one(user)
+        except:
+            return {"message" : "{} has already been signed".format(username)}, 400
+        return { 
+            "message" : "{} Register Successfully".format(username), 
+            "prediction_id" : username
+            }, 200
 
 
 @api.route('/predictions')
