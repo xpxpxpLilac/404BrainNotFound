@@ -13,6 +13,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 import sqlite3
+import numpy as np
 
 def load_match(match, split_percentage):
 
@@ -66,19 +67,46 @@ def getMatch(conn):
     #                     ,chanceCreationShooting, defencePressure, defenceAggression, defenceTeamWidth FROM Team_Attributes;", conn)
     # team_attribute.fillna(50)
 
-    team_attribute = pd.read_sql_query("SELECT team_api_id, buildUpPlaySpeed FROM Team_Attributes;", conn)
+    team_attribute = pd.read_sql_query("SELECT team_api_id, buildUpPlaySpeed, buildUpPlayDribbling, \
+        buildUpPlayPassing, chanceCreationPassing, chanceCreationCrossing, chanceCreationShooting, \
+        defencePressure, defenceAggression, defenceTeamWidth FROM Team_Attributes;", conn)
+
+    team_attribute = team_attribute.groupby("team_api_id").mean()
     team_attribute.fillna(50)
+    #print(team_attribute)
 
-    match = match.merge(team_attribute, how='left', left_on="Home", right_on="team_api_id")
-    match.rename(columns={'buildUpPlaySpeed':'Home_buildUpSpeed'}, inplace=True)
-    match = match.merge(team_attribute, how='left', left_on="Away", right_on="team_api_id")
-    match.rename(columns={'buildUpPlaySpeed':'Away_buildUpSpeed'}, inplace=True)
 
-    match = match.drop(columns=["team_api_id_x", "team_api_id_y"])
+    match = match.merge(team_attribute, how='left', left_on="Home", right_index=True)
+    #match.rename(columns={'buildUpPlaySpeed':'Home_buildUpSpeed'}, inplace=True)
+    match = match.merge(team_attribute, how='left', left_on="Away", right_index=True)
+    #match.rename(columns={'buildUpPlaySpeed':'Away_buildUpSpeed'}, inplace=True)
+    #match = match.drop(columns=["team_api_id_x", "team_api_id_y"])
     match = match.dropna()
-
+    #print(match)
     return match
 
+def regression_train(match_X_train, match_y_train):
+    # train a classifier
+    regre = LogisticRegression()
+    regre.fit(match_X_train, match_y_train) 
+    return regre
+
+def regression_prediction(regre, match_X_test, match_y_test, match_input,pid):
+    # predict the test set
+    predictions = regre.predict(match_X_test)
+    p = regre.predict(match_input)
+
+    pred_json = {'prediction':p[0],
+                'accuracy':accuracy_score(match_y_test, predictions)
+                }
+    print(type(pred_json))
+    print(pred_json)
+
+    print("confusion_matrix:\n", confusion_matrix(match_y_test, predictions))
+    print("precision:\t", precision_score(match_y_test, predictions, average=None))
+    print("recall:\t\t", recall_score(match_y_test, predictions, average=None))
+    print("accuracy:\t", accuracy_score(match_y_test, predictions))
+    return (pred_json)
 
 
 if __name__ == '__main__':
@@ -87,25 +115,16 @@ if __name__ == '__main__':
     match = getMatch(conn)
     # Split the data into test and train parts
     match_X_train, match_y_train, match_X_test, match_y_test = load_match(match, split_percentage=0.7)
+    
+    regression_prediction(match_X_train, match_y_train, match_X_test, match_y_test)
 
-    # train a classifier
-    # knn = KNeighborsClassifier()
-    # knn.fit(match_X_train, match_y_train)
-
-    # # predict the test set
-    # predictions = knn.predict(match_X_test)
-
-    # print("confusion_matrix:\n", confusion_matrix(match_y_test, predictions))
-    # print("precision:\t", precision_score(match_y_test, predictions, average=None))
-    # print("recall:\t\t", recall_score(match_y_test, predictions, average=None))
-    # print("accuracy:\t", accuracy_score(match_y_test, predictions))
-
+### envalueation part
+### find out LogisticRegression has best performance
     classifiers = [KNeighborsClassifier(),
                    DecisionTreeClassifier(),
                    LinearDiscriminantAnalysis(),
-                   LogisticRegression(),
-                   GaussianNB(),
-                   SVC()]
+                   LogisticRegression()
+                   ]
 
     classifier_accuracy_list = []
     for i, classifier in enumerate(classifiers):
