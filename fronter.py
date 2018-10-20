@@ -34,6 +34,29 @@ def signin():
     return render_template('signin.html', message = 'invalid username or password', username = username)
 
 
+@app.route('/register', methods=['GET'])
+def register():
+    return render_template('register.html')
+
+
+@app.route('/register', methods=['POST'])
+def register_post():
+    username = request.form['username']
+    password = request.form['password']
+    #curl -X GET "http://127.0.0.1:5000/token?username=admin&password=admin" -H "accept: application/json"
+    #headers = {'Accept':'application/json'}
+    r = requests.post('http://127.0.0.1:5000/token?username=' + str(username) + '&password=' + str(password))
+    item = r.json()
+    if r.ok:
+        return render_template('signin-ok.html', username = username)
+    return render_template('signin.html', message = item['message'])
+
+
+
+
+
+
+
 @app.route('/predictions', methods=['GET'])
 def get_pred_list():
 
