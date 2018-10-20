@@ -51,12 +51,6 @@ def register_post():
         return render_template('signin-ok.html', username = username)
     return render_template('signin.html', message = item['message'])
 
-
-
-
-
-
-
 @app.route('/predictions', methods=['GET'])
 def get_pred_list():
 
@@ -70,51 +64,77 @@ def get_pred_list():
 
 @app.route('/predictions', methods=['POST'])
 def post_pred():
-    team1 = request.form['team1']
-    team2 = request.form['team2']
-    team1speed = request.form['team1speed']
-    team2speed = request.form['team2speed']
-    team1crossing = request.form['team1crossing']
-    team2crossing = request.form['team2crossing']
-    global pid
-    data = {'prediction_id':pid,
-    'team1':team1,
-    'team2':team2,
-    'team1speed':int(team1speed),
-    'team2speed':int(team2speed),
-    'team1crossing':int(team1crossing),
-    'team2crossing':int(team2crossing)
-    }
-    #
-    #'Content-Type': 'application/json'
+    if 'p_id' in request.form:
+        p_id = request.form['p_id']
+        response = requests.get('http://127.0.0.1:5000/predictions/'+str(p_id), headers={'AUTH-TOKEN':token} )
+        match = response.json()
+        print(match)
 
-    print(data)
+        if response.ok:
+            return render_template('signin-ok.html',H_1=match['H_buildUpPlaySpeed'],H_2=match['H_buildUpPlayDribbling'],\
+                H_3=match['H_buildUpPlayPassing'],H_4=match['H_chanceCreationPassing'],H_5=match['H_chanceCreationShooting'],\
+                H_6=match['H_defencePressure'],H_7=match['H_defenceAggression'],H_8=match['H_defenceAggression'],\
+                H_9=match['H_defenceTeamWidth'],A_1=match['A_buildUpPlayDribbling'],A_2=match['A_buildUpPlaySpeed'],\
+                A_3=match['A_buildUpPlayPassing'],A_4=match['A_chanceCreationPassing'],A_5=match['A_chanceCreationCrossing'],\
+                A_6=match['A_chanceCreationShooting'],A_7=match['A_defencePressure'],A_8=match['A_defenceAggression'],\
+                A_9=match['A_defenceTeamWidth'])
+        return render_template('signin-ok.html', username='username',data3=match['message'])
 
-    response = requests.post('http://127.0.0.1:5000/predictions',headers={'AUTH-TOKEN':token},json=data)
-    item = response.json()
-    print(item)
-    if response.ok:
-    	return render_template('signin-ok.html', username='username',data2=item)
-    return render_template('signin-ok.html', username='username',data2=item['message'])
+    if 'team1' in request.form:
+        team1 = request.form['team1']
+        team2 = request.form['team2']
+        team1speed = request.form['team1speed']
+        team2speed = request.form['team2speed']
+        team1crossing = request.form['team1crossing']
+        team2crossing = request.form['team2crossing']
+        global pid
+        data = {'prediction_id':pid,
+        'team1':team1,
+        'team2':team2,
+        'team1speed':int(team1speed),
+        'team2speed':int(team2speed),
+        'team1crossing':int(team1crossing),
+        'team2crossing':int(team2crossing)
+        }
+        #
+        #'Content-Type': 'application/json'
+
+        print(data)
+
+        response = requests.post('http://127.0.0.1:5000/predictions',headers={'AUTH-TOKEN':token},json=data)
+        item = response.json()
+        print(item)
+        if response.ok:
+            return render_template('signin-ok.html', username='username',data2=item)
+        return render_template('signin-ok.html', username='username',data2=item['message'])
+
+    if 'delete_id' in request.form:
+        delete_id = request.form['delete_id']
+        response = requests.delete('http://127.0.0.1:5000/predictions/'+str(delete_id), headers={'AUTH-TOKEN':token} )
+        item = response.json()
+        print(item)
+        if response.ok:
+            return render_template('signin-ok.html', username='username',data4= item)
+        return render_template('signin-ok.html', username='username',data4=item['message'])
 
 
-@app.route('/predictions/<p_id>', methods=['GET'])
-def get_pred(p_id):
-    #preid = request.form['preid']
-    print(p_id)
+# @app.route('/predictions/<p_id>', methods=['GET'])
+# def get_pred(p_id):
+#     #preid = request.form['preid']
+#     print(p_id)
 
-    response = requests.get('http://127.0.0.1:5000/predictions/'+str(p_id), headers={'AUTH-TOKEN':token} )
-    print(token)
-    item = response.json()
-    print(item)
-    if response.ok:
-    	return render_template('signin-ok.html', username='username',data3= item)
-    return render_template('signin-ok.html', username='username',data3=item['message'])
+#     response = requests.get('http://127.0.0.1:5000/predictions/'+str(p_id), headers={'AUTH-TOKEN':token} )
+#     print(token)
+#     item = response.json()
+#     print(item)
+#     if response.ok:
+#     	return render_template('signin-ok.html', username='username',data3= item)
+#     return render_template('signin-ok.html', username='username',data3=item['message'])
 
 
 
 
 if __name__ == '__main__':
-	token = ''
-	pid = 0
-	app.run(debug=True, port=2424)   #Ive change from 5000 to 2424
+    token = ''
+    pid = 0
+    app.run(debug=True, port=2424)   #Ive change from 5000 to 2424
