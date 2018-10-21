@@ -80,7 +80,8 @@ def requires_auth(f):
 
 
 # The following is the schema of match
-match_model = api.model('match', {'name':fields.String,
+match_model = api.model('match', {'p_name':fields.String,
+                'H_name':fields.String,
                 'H_buildUpPlaySpeed':fields.Integer,
                 'H_buildUpPlayDribbling':fields.Integer,
                 'H_buildUpPlayPassing':fields.Integer,
@@ -89,8 +90,7 @@ match_model = api.model('match', {'name':fields.String,
                 'H_chanceCreationShooting':fields.Integer,
                 'H_defencePressure':fields.Integer,
                 'H_defenceAggression':fields.Integer,
-                'H_defenceTeamWidth':fields.Integer,
-
+                'A_name':fields.String,
                 'A_buildUpPlayDribbling':fields.Integer,
                 'A_buildUpPlaySpeed':fields.Integer,
                 'A_buildUpPlayPassing':fields.Integer,
@@ -98,8 +98,7 @@ match_model = api.model('match', {'name':fields.String,
                 'A_chanceCreationCrossing':fields.Integer,
                 'A_chanceCreationShooting':fields.Integer,
                 'A_defencePressure':fields.Integer,
-                'A_defenceAggression':fields.Integer,
-                'A_defenceTeamWidth':fields.Integer
+                'A_defenceAggression':fields.Integer
                 })
 
 credential_model = api.model('credential', {
@@ -122,8 +121,7 @@ class Token(Resource):
 
         username = args.get('username')
         password = args.get('password')
-        user = db.users.find_one({"username": username})
-        print('=============')
+        user = db.users.find_one({"_id": username})
         if not user:
             api.abort(404, "Username: {} doesn't exist".format(username))
         if password != user['password']:
@@ -139,7 +137,7 @@ class Token(Resource):
 
         username = args.get('username')
         password = args.get('password')
-        user = {'username':username,
+        user = {'_id':username,
                 'password': password
         }
 
@@ -164,22 +162,22 @@ class PredList(Resource):
     @requires_auth
     def post(self):
         match = request.json
-        match_id = match['name']
+        match_id = match['p_name']
         match_input = np.array([(match['H_buildUpPlaySpeed'],match['H_buildUpPlayDribbling'],match['H_buildUpPlayPassing'],\
             match['H_chanceCreationPassing'],match['H_chanceCreationCrossing'],match['H_chanceCreationShooting'],\
-            match['H_defencePressure'],match['H_defenceAggression'],match['H_defenceTeamWidth'],\
+            match['H_defencePressure'],match['H_defenceAggression'],\
             match['A_buildUpPlayDribbling'],match['A_buildUpPlaySpeed'],match['A_buildUpPlayPassing'],\
             match['A_chanceCreationPassing'],match['A_chanceCreationCrossing'],match['A_chanceCreationShooting'],\
-            match['A_defencePressure'],match['A_defenceAggression'],match['A_defenceTeamWidth'])])
+            match['A_defencePressure'],match['A_defenceAggression'])])
         print(f'get post request: {match}')
-        p = ml.regression_prediction(regre, match_X_test, match_y_test, match_input, match_id)
+        p = ml.regression_prediction(regre, match_X_test, match_y_test, match_input)
         print(f'get pred:\n{p}')
         
         time = datetime.datetime.now()
         date_str = time.strftime("%Y-%m-%d %H:%M:%S")
         posts = db.posts
-        print(type(p))
-        prediction = {'_id':match['name'],
+        prediction = {'_id':match['p_name'],
+                'H_name':match['H_name'],
                 'H_buildUpPlaySpeed':match['H_buildUpPlaySpeed'],
                 'H_buildUpPlayDribbling':match['H_buildUpPlayDribbling'],
                 'H_buildUpPlayPassing':match['H_buildUpPlayPassing'],
@@ -188,8 +186,8 @@ class PredList(Resource):
                 'H_chanceCreationShooting':match['H_chanceCreationShooting'],
                 'H_defencePressure':match['H_defencePressure'],
                 'H_defenceAggression':match['H_defenceAggression'],
-                'H_defenceTeamWidth':match['H_defenceTeamWidth'],
 
+                'A_name':match['A_name'],
                 'A_buildUpPlayDribbling':match['A_buildUpPlayDribbling'],
                 'A_buildUpPlaySpeed':match['A_buildUpPlaySpeed'],
                 'A_buildUpPlayPassing':match['A_buildUpPlayPassing'],
@@ -198,24 +196,20 @@ class PredList(Resource):
                 'A_chanceCreationShooting':match['A_chanceCreationShooting'],
                 'A_defencePressure':match['A_defencePressure'],
                 'A_defenceAggression':match['A_defenceAggression'],
-                'A_defenceTeamWidth':match['A_defenceTeamWidth'],
 
                 'result':p['prediction'],
                 'accuracy':p['accuracy']
                 }
         try:
-            posts.insert_one(prediction)
+            rp = posts.insert_one(prediction)
         except:
             print('aaaaaaaa')
-            return {"message" : "{} has already been posted".format(match_id),
-                    "location" : "/posts/{}".format(match_id)}, 200
+            return {"message" : f"{match['p_name']} has already been posted, please use another prediction ID.",
+                    "location" : f"/posts/{match['p_name']}" }, 400
         return { 
-            "location" : "/predictions/{}".format(match_id), 
-            "prediction_id" : match_id,  
+            "location" : f"/posts/{match['p_name']}", 
             "creation_time": date_str
             }, 201
-
-
 
     @api.response(200, 'Successful')
     @api.doc(description="Get all pred")
@@ -226,11 +220,11 @@ class PredList(Resource):
             p_id = item["_id"] 
             pred = { 
                 "location" : "/predictions/{}".format(p_id), 
-                "prediction_id" : p_id
+                "H_name" : item["H_name"],
+                "A_name" : item["A_name"]
                 }  
             availiable_pred.append(pred)
         return availiable_pred, 200
-
 
 
 
@@ -248,7 +242,7 @@ class Pred(Resource):
         return pred, 200
 
 
-    @api.response(404, 'Book was not found')
+    @api.response(404, 'Pred was not found')
     @api.response(200, 'Successful')
     @api.doc(description="Delete a prediction by its ID")
     @requires_auth
