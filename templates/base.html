@@ -11,17 +11,15 @@ body, html {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
-	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+  <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
-
-	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-    
-    
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -33,17 +31,35 @@ body, html {
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Soccer 1v1</a>
     </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
+    {% if session['token'] %}
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href={{url_for('prediction')}}>Predict</a></li>
+        <li><a href={{url_for('all')}}>History</a></li>
+      </ul>    
+    {% endif %}
+
+
+    {% if not session['token'] %}
 		<div>
       <form action="/register" method="get">
-        <button class="btn btn-danger navbar-btn" style="float:right;margin-left: 10px;">Sign In</button>
+        <button name="signin" class="btn btn-danger navbar-btn" style="float:right;margin-left: 10px;">Sign In</button>
       </form>
-		<button class="btn btn-danger navbar-btn" style="float:right;">Log In</button>
-		</div>
+
+      <form action="/" method="get">
+		    <button name="login" class="btn btn-danger navbar-btn" style="float:right;">Log In</button>
+      </form>		
+    </div>
+    {% else %}  
+    <div>
+      <form action="/" method="get">
+        <button name="logout" class="btn btn-danger navbar-btn" style="float:right;margin-left: 10px;">Log out</button>
+      </form> 
+    </div>
+    {% endif %}
+
+
+
 	</div>
 </nav>
 {% block body_contents %}
