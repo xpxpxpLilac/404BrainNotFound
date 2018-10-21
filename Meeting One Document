@@ -3,7 +3,7 @@ Meeting One Document
 Group member:
 -Yuexuan Liu z5093599
 -Xiaodan Wang z5145114
--Lianshuai Song z5146256
+-Lianshuai Song z5146256github
 -Hongkai Hu	z5153912
 -Peiguo Guan z5143964
 
@@ -12,6 +12,7 @@ What is the aim of the service?
   API design
     1. Using team attributes and match goals training Machine Learning Model
     2. Realize match result prediction between 2 teams given by client
+    3. Clients could requests some history matches data and teams’ data
     Optional: 
     3. Using players’ attributes and match goals 
     4. prediction between 2 teams with selected players given by client
@@ -29,9 +30,83 @@ What is your code repository?
   
 A very brief description of each member’s role in the project
   tasks assignment:
-  1. data pre-processing
-  2. ML model
-  3. API Design
-  4. client
+  1. data pre-processing & ML model: Peiguo Guan, Yuexuan Liu
+  3. API Design & coding: Xiaodan Wang, Lianshuai Shuai
+  4. GUI design and implementation: Hongkai Hu
+  4. Github version control & testing: Yuexuan Liu
 
-??‐ Has the group identified the (high‐level) system architecture and components necessary for the group work?  (not to be detailed, high‐level plan)
+‐ Has the group identified the (high‐level) system architecture and components necessary for the group work?  (not to be detailed, high‐level plan)
+
+ML model: 
+
+API design:
+Resource(URI)
+Operation
+Success
+Failure
+Payload
+/<Prediction>
+POST
+Code: 201 Created, return location
+Code: 200 OK, update
+Code: 404 Not Found, invalid team id
+Code: 503 database unreachable
+{ "team_1" : "team_id" , "team_2" : "team_id" }
+/<Prediction>
+GET
+Code: 200 OK, retrieves all available predictions
+Code: 404 Not Found, invalid team id
+Code: 503 database unreachable
+
+
+/<Prediction>/{prediction_id}
+GET
+Code: 200 OK, retrieves a prediction by its prediction_id
+Code: 404 Not Found, invalid team id
+Code: 503 database unreachable
+
+
+/<Prediction>/{prediction_id}
+DELETE
+Code: 200 OK, deletes an existing collection by its prediction_id
+Code: 404 Not Found, invalid team id
+Code: 503 database unreachable
+
+
+
+
+Token-based Authentication
+Adding ‘login_required’: For supporting login enabled functionality we can add the ‘login_required’ decorator on top of each method on top of all methods we want to secure.
+
+JSON Format:
+
+League
+{ “league_id” : “Premier League”,
+  “Matches” : [
+		{ “match_id” : “1”,
+		 “home_team” : “Chelsea”,
+		 “Away_team” : “Liverpool”,
+		 “Goals” : “0:1”
+}
+…
+          ]
+}
+
+
+Team
+{ “team_id” : “Chelsea”,
+  “attributes” : [
+		{ “speed” : “1”,
+		 “passing” : “Chelsea”,
+		 “crossing” : “Liverpool”,
+}
+…
+          ]
+}
+
+Prediction
+{ “prediction_id” : “Chelsea_vs_Liverpool”,
+  “winner” : “Chelsea ”
+}
+
+
