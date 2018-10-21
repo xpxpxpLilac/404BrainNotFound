@@ -36,7 +36,7 @@ Idea of the project: All the team members
 Machine Learning: Yuexuan Liu
 Front End：Xiaodan Wang, Lianshuai Song
 Back End:  Peiguo Guan, Hongkai Hu
-Summary of the task: All the team members.
+Summary of the task: All the team members
 
     To-do list:
     Plan :
