@@ -69,7 +69,7 @@ def getMatch(conn):
 
     team_attribute = pd.read_sql_query("SELECT team_api_id, buildUpPlaySpeed, buildUpPlayDribbling, \
         buildUpPlayPassing, chanceCreationPassing, chanceCreationCrossing, chanceCreationShooting, \
-        defencePressure, defenceAggression, defenceTeamWidth FROM Team_Attributes;", conn)
+        defencePressure, defenceAggression FROM Team_Attributes;", conn)
 
     team_attribute = team_attribute.groupby("team_api_id").mean()
     team_attribute.fillna(50)
@@ -91,7 +91,7 @@ def regression_train(match_X_train, match_y_train):
     regre.fit(match_X_train, match_y_train) 
     return regre
 
-def regression_prediction(regre, match_X_test, match_y_test, match_input,pid):
+def regression_prediction(regre, match_X_test, match_y_test, match_input):
     # predict the test set
     predictions = regre.predict(match_X_test)
     p = regre.predict(match_input)
@@ -109,31 +109,31 @@ def regression_prediction(regre, match_X_test, match_y_test, match_input,pid):
     return (pred_json)
 
 
-if __name__ == '__main__':
-    conn = sqlite3.connect("database.sqlite")
+# if __name__ == '__main__':
+#     conn = sqlite3.connect("database.sqlite")
 
-    match = getMatch(conn)
-    # Split the data into test and train parts
-    match_X_train, match_y_train, match_X_test, match_y_test = load_match(match, split_percentage=0.7)
+#     match = getMatch(conn)
+#     # Split the data into test and train parts
+#     match_X_train, match_y_train, match_X_test, match_y_test = load_match(match, split_percentage=0.7)
     
-    regression_prediction(match_X_train, match_y_train, match_X_test, match_y_test)
+#     regression_prediction(match_X_train, match_y_train, match_X_test, match_y_test)
 
-### envalueation part
-### find out LogisticRegression has best performance
-    classifiers = [KNeighborsClassifier(),
-                   DecisionTreeClassifier(),
-                   LinearDiscriminantAnalysis(),
-                   LogisticRegression()
-                   ]
+# ### envalueation part
+# ### find out LogisticRegression has best performance
+#     classifiers = [KNeighborsClassifier(),
+#                    DecisionTreeClassifier(),
+#                    LinearDiscriminantAnalysis(),
+#                    LogisticRegression()
+#                    ]
 
-    classifier_accuracy_list = []
-    for i, classifier in enumerate(classifiers):
-        # split the dataset into 5 folds; then test the classifier against each fold one by one
-        accuracies = cross_val_score(classifier, match_X_train, match_y_train, cv=5)
-        classifier_accuracy_list.append((accuracies.mean(), type(classifier).__name__))
-        print("=================== finish ====="+ str(classifier)+"=====================")
+#     classifier_accuracy_list = []
+#     for i, classifier in enumerate(classifiers):
+#         # split the dataset into 5 folds; then test the classifier against each fold one by one
+#         accuracies = cross_val_score(classifier, match_X_train, match_y_train, cv=5)
+#         classifier_accuracy_list.append((accuracies.mean(), type(classifier).__name__))
+#         print("=================== finish ====="+ str(classifier)+"=====================")
 
-    # sort the classifiers
-    classifier_accuracy_list = sorted(classifier_accuracy_list, reverse=True)
-    for item in classifier_accuracy_list:
-        print(item[1], ':', item[0])
+#     # sort the classifiers
+#     classifier_accuracy_list = sorted(classifier_accuracy_list, reverse=True)
+#     for item in classifier_accuracy_list:
+#         print(item[1], ':', item[0])
