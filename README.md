@@ -57,30 +57,78 @@ Summary of the task: All the team members.
 ===========  Format  ===========
 
 users
+
+
+
 { “username” : “admin”,
+
+
   “password” : “admin ”
+  
+  
 }
 
 posts
+
+
+
 {'p_name':fields.String,
+
+
 'H_name':fields.String,
+
+
 'H_buildUpPlaySpeed':fields.Integer,
+
+
 'H_buildUpPlayDribbling':fields.Integer,
+
+
 'H_buildUpPlayPassing':fields.Integer,
+
+
 'H_chanceCreationPassing':fields.Integer,
+
+
 'H_chanceCreationCrossing':fields.Integer,
+
+
 'H_chanceCreationShooting':fields.Integer,
+
+
 'H_defencePressure':fields.Integer,
+
+
 'H_defenceAggression':fields.Integer,
+
+
 'A_name':fields.String,
+
+
 'A_buildUpPlayDribbling':fields.Integer,
+
+
 'A_buildUpPlaySpeed':fields.Integer,
+
+
 'A_buildUpPlayPassing':fields.Integer,
+
+
 'A_chanceCreationPassing':fields.Integer,
+
+
 'A_chanceCreationCrossing':fields.Integer,
+
+
 'A_chanceCreationShooting':fields.Integer,
+
+
 'A_defencePressure':fields.Integer,
+
+
 'A_defenceAggression':fields.Integer
+
+
 }
 
 
