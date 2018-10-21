@@ -54,8 +54,7 @@ Summary of the task: All the team members.
 
 
 
-===========
-Format:
+===========  Format  ===========
 
 users
 { “username” : “admin”,
