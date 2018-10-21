@@ -221,7 +221,8 @@ class PredList(Resource):
             pred = { 
                 "location" : "/predictions/{}".format(p_id), 
                 "H_name" : item["H_name"],
-                "A_name" : item["A_name"]
+                "A_name" : item["A_name"],
+                "result" : item['result']
                 }  
             availiable_pred.append(pred)
         return availiable_pred, 200
