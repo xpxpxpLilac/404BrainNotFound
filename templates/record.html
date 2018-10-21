@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+<html>
+<head>
+<meta charset="utf-8">
+    <title>chart.js 2.x</title>
+  <title>Welcome, {{ username }}</title>
+</head>
+
+<style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+    
+    .bg {
+        /* The image used */
+        background-image: url('/static/record.jpg');
+        /* Full height */
+        height: 100%; 
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+    /*		opacity: 0.5;*/
+    /*    filter: alpha(opacity=50);  For IE8 and earlier */
+    }
+</style>
+
+
+<div class="bg" style="height:75%;">
+<div class="container">
+  <div class="row content">
+
+    <br>
+    
+    <div class="row" style="margin-left:150px; margin-right: 150px;">
+			<div style="margin-top: 150px;">
+        <h3 style="text-align: center; font-family: 'Rock Salt', cursive; font-size: 90px; color: floralwhite">Check what you've found!</h3>
+			</div>
+    </div>
+      
+  </div>
+    <div class="row">
+        <div style="float: right; margin-top: 50px;">
+            <a href="{{url_for('all')}}">
+                <button type="submit" class="btn btn-default">Return To All</button>
+            </a>
+
+            <form action="/prediction" method="GET">
+                <button type="submit" class="btn btn-default">Go Predict</button>
+            </form>
+
+
+            <a href="{{url_for('show_history',p_id=pre_id)}}">
+                <button type="submit" class="btn btn-default">DELETE</button>
+            </a>
+
+
+        </div>
+    </div>
+
+pre_id is: {{pre_id}}    
+    
+       <div class="row" style="margin: 50px;">
+					<div class="row">	
+						<div class="col-md-3">
+
+<!--
+                    <div class="panel panel-primary">
+                        <div class="panel-body" style="background-color: darkorange; height: 150px;">
+-->
+                    <div class="w3-panel w3-yellow w3-round-xlarge">
+                            <div class="row" style="margin-top: 30px;" >
+                                <div class="col-xs-3">
+                                    <i class="fa fa-camera-retro fa-5x"></i> 
+                                </div>
+                                <div class="col-xs-9 text-center" style="margin-top:10px;">
+                                    <div style="font-family: 'Anton', sans-serif;font-size: 40px;">HOME</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                </div>-->
+              <div class="col-md-3" style="margin-top:40px">
+                    <div>
+                        <p>{{H_result}}</p>
+                    </div>
+              </div>
+						<div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-body" style="background-color: aquamarine; height: 150px;">
+                            <div class="row" style="margin-top: 30px;" >
+                                <div class="col-xs-3">
+                                    <i class="fa fa-camera-retro fa-5x"></i> 
+                                </div>
+                                <div class="col-xs-9 text-center" style="margin-top:10px;">
+                                    <div style="font-family: 'Anton', sans-serif;font-size: 40px;">AWAY</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <div class="col-md-3" style="margin-top:40px">
+                    <div>
+                        {% if H_result == 'win' %}
+                        <p>lose</p>
+                        {% elif H_result == 'lose' %}
+                        <p>win</p>
+                        {% else %}
+                        <p>draw</p>
+                        {% endif %}
+                    </div>
+              </div>
+				</div>
+        
+        
+        <div><h1>Our analysis</h1></div>
+				<div class="row">
+						<div class="col-sm-6">
+
+            data: [{{ H_1 }},{{ H_2 }},{{ H_3 }},{{ H_4 }},{{ H_5 }},{{ H_6 }},{{ H_7 }},{{ H_8 }},{{ H_9 }}]
+            data: [{{ A_1 }},{{ A_2 }},{{ A_3 }},{{ A_4 }},{{ A_5 }},{{ A_6 }},{{ A_7 }},{{ A_8 }},{{ A_9 }}]
+            <div style="width:500px;height:500px;" id="radar">
+                <canvas id="myChart"></canvas>
+            </div>
+            <!--引入 chartjs-->
+            <script src="../static/js/Chart.js"></script>
+
+
+            <script type="text/javascript">
+                // 设置数据和参数
+                var radarChartData = {
+                    labels: ['buildUpPlaySpeed','buildUpPlayDribbling','buildUpPlayPassing','chanceCreationPassing','chanceCreationCrossing','chanceCreationShooting','defencePressure','defenceAggression'],
+                    datasets: [
+                        {
+                            pointBorderColor:"#C064A7",//描点颜色
+                            pointBackgroundColor:"#fff",//描点背景颜色
+                            borderColor:"#C064A7",//画线颜色
+                            data:[{{ H_1 }},{{ H_2 }},{{ H_3 }},{{ H_4 }},{{ H_5 }},{{ H_6 }},{{ H_7 }},{{ H_8 }}]
+                        }
+                        ,
+                        {
+                            pointBorderColor:"#C064A7",//描点颜色
+                            pointBackgroundColor:"#A8FF24",//描点背景颜色
+                            borderColor:"#F9F900",//画线颜色
+                            data:[{{ A_1 }},{{ A_2 }},{{ A_3 }},{{ A_4 }},{{ A_5 }},{{ A_6 }},{{ A_7 }},{{ A_8 }}]
+                        }
+                    ]
+
+                };
+                //设置选项
+                var options = {
+                    legend:false,//数据项
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize:20,//Y轴间隔
+                            max:100,//Y轴最大值
+                            min:0,
+                            callback:function(value) { return value + '%'; }//Y轴格式化
+                        },
+                        angleLines:{
+                            display:false//雷达辐射轴
+                        },
+                        pointLabels:{
+                            fontSize:13//x轴文字
+                        },
+
+                    }
+                }
+                var ctx = document.getElementById("myChart").getContext("2d");
+                var myBarChart = new Chart(ctx, {type: 'radar',data: radarChartData});
+
+            </script>
+                    
+            </div>
+            
+            
+				</div>
+        
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
