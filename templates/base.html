@@ -29,10 +29,12 @@ body, html {
     </ul>
 		<div>
       <form action="/register" method="get">
-        <button class="btn btn-danger navbar-btn" style="float:right;margin-left: 10px;">Sign In</button>
+        <button name="signin" class="btn btn-danger navbar-btn" style="float:right;margin-left: 10px;">Sign In</button>
       </form>
-		<button class="btn btn-danger navbar-btn" style="float:right;">Log In</button>
-		</div>
+      <form action="/" method="get">
+		    <button name="login" class="btn btn-danger navbar-btn" style="float:right;">Log In</button>
+      </form>		
+    </div>
 	</div>
 </nav>
 {% block body_contents %}
