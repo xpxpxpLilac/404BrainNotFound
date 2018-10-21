@@ -6,6 +6,7 @@ Extracting the database from FIFA and using various data to do data analyze and 
 of two teams through some team attributes.  
 
 Details:
+
 •	Machine Learning
 ml.py uploaded in github is used for our evaluation initially. It could be seen the accuracy of various model predictions. 
 We choose the most accuracy one called LogisticRegression. So we establish the machine learning is based on the LogisticRegression machine learning model. This model is built after loading data into the database at the Back End. We will wait the request. If we 
