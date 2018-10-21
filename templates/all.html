@@ -41,58 +41,104 @@
 
         <br>
     
-        <div class="row" style="margin-left:150px; margin-right: 150px;">
+            <div class="row" style="margin-left:150px; margin-right: 150px;">
 			         <div style="margin-top: 150px;">
                 <h3 style="text-align: center; font-family: 'Rock Salt', cursive; font-size: 90px; color: floralwhite">All your predictions!</h3>
 			         </div>
-        </div>
+            </div>
             
-        </div>    
+        </div> 
+
+
             
+
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h1>WIN</h1>
-                <div class="well">
-                    <a href="{{url_for('signin')}}">
-                    <div class="row" style="margin-top: 15px;">
-                        <div class="col-sm-4">
-                            <p>Text</p> 
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Text</p> 
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Text</p> 
-                        </div>
-                    </div>
-                    </a>
             </div>
-            </div> 
-            
-            
-            <div class="col-sm-6">
+
+            <div class="col-sm-4">
                 <h1>LOSE</h1>
+            </div>
+
+            <div class="col-sm-4">
+                <h1>DRAW</h1>
+            </div>
+
+        </div>
+
+        {{ messege }}
+
+
+        <div class="col-sm-4">
+            {% for record in records %}
+                {% if record['result'] == 'win' %}
                 <div class="well">
-                    <a href="{{url_for('register')}}">
+                    <a href="{{url_for('get_pred',p_id=record['location'][13:])}}">
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-sm-4">
-                            <p>Text</p> 
+                            <p>{{ record['H_name'] }}</p> 
                         </div>
                         <div class="col-sm-4">
-                            <p>Text</p> 
+                            <p>{{ record['A_name'] }}</p> 
                         </div>
                         <div class="col-sm-4">
-                            <p>Text</p> 
+                            <p>{{ record['result'] }}</p> 
                         </div>
                     </div>
                     </a>
-            </div>
+                </div>
+                {% endif %}                
+            {% endfor %}
         </div>
-                
-    
-        </div>
-       
-        
+
+        <div class="col-sm-4">
+            {% for record in records %}
+                {% if record['result'] == 'lose' %}
+                <div class="well">
+                    <a href="{{url_for('get_pred',p_id=record['location'][13:])}}">
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-sm-4">
+                            <p>{{ record['H_name'] }}</p> 
+                        </div>
+                        <div class="col-sm-4">
+                            <p>{{ record['A_name'] }}</p> 
+                        </div>
+                        <div class="col-sm-4">
+                            <p>{{ record['result'] }}</p> 
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                {% endif %}                
+            {% endfor %}
+        </div>   
+
+        <div class="col-sm-4">
+            {% for record in records %}
+                {% if record['result'] == 'draw' %}
+                <div class="well">
+                    <a href="{{url_for('get_pred',p_id=record['location'][13:])}}">
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-sm-4">
+                            <p>{{ record['H_name'] }}</p> 
+                        </div>
+                        <div class="col-sm-4">
+                            <p>{{ record['A_name'] }}</p> 
+                        </div>
+                        <div class="col-sm-4">
+                            <p>{{ record['result'] }}</p> 
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                {% endif %}                
+            {% endfor %}
+        </div>  
+
+
+
     </div>
 </div>
+
 {% endblock %}
