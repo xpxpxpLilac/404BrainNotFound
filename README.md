@@ -8,12 +8,11 @@ of two teams through some team attributes.
 Details:
 •	Machine Learning
 ml.py uploaded in github is used for our evaluation initially. It could be seen the accuracy of various model predictions. 
-We choose the most accuracy one called LogisticRegression. So we establish the machine learning is based on the LogisticRegression 
-machine learning model. This model is built after loading data into the database at the Back End. We will wait the request. If we 
+We choose the most accuracy one called LogisticRegression. So we establish the machine learning is based on the LogisticRegression machine learning model. This model is built after loading data into the database at the Back End. We will wait the request. If we 
 receive the post request we could receive data from paylode and do machine learning then return the response with prediction result.
 
 •	Front End (Home page, Sign in page, Log in page, Dashboard(Predict page), Result page)
-We need to Log in at Home page. If you don’t have the account it will switch to the Sign up page to fill some information and then 
+We need to Log in at Home page. If you don’t have the account it will switch to the Sign up page to fill some information and then
 submit the information. You could switch to Log in page after submission your personal information. You could get into Dashboard when
 log in successfully. Dashboard is the main page with the Predict button which could fill in eight team attributes. After pushing the 
 Predict button it will switch to the final page which show the result of the prediction with some relative charts. You can push the 
