@@ -32,10 +32,15 @@ exist it will return a token and the user can do some requests with permission r
 When users create an account, usernames and passwords could be saved in the Back End database.
 
 Task Assignment:
+
 Idea of the project: All the team members
+
 Machine Learning: Yuexuan Liu
+
 Front End：Xiaodan Wang, Lianshuai Song
+
 Back End:  Peiguo Guan, Hongkai Hu
+
 Summary of the task: All the team members
 
     To-do list:
