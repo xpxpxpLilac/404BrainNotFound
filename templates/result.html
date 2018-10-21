@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block body_contents %}
-
+<html>
+<head>
+<meta charset="utf-8">
+    <title>chart.js 2.x</title>
+  <title>Welcome, {{ username }}</title>
+</head>
 
 <style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -50,7 +55,7 @@
   </div>
     
     
-    <form action="/action_page.php">
+    
        <div class="row" style="margin: 50px;">
 					<div class="row">	
 						<div class="col-md-3">
@@ -70,7 +75,7 @@
                 </div>
               <div class="col-md-3" style="margin-top:40px">
                     <div>
-                        <p>win</p>
+                        <p>{{H_result}}</p>
                     </div>
               </div>
 <!--				           <div class="col-lg-3 col-md-6">-->
@@ -90,19 +95,83 @@
                 </div>
               <div class="col-md-3" style="margin-top:40px">
                     <div>
+                        {% if H_result == 'win' %}
                         <p>lose</p>
+                        {% elif H_result == 'lose' %}
+                        <p>win</p>
+                        {% else %}
+                        <p>draw</p>
+                        {% endif %}
                     </div>
               </div>
 				</div>
         
         <div style="margin-left: 400px;margin-right: auto;margin-top: 50px;">
-            <button type="submit" class="btn btn-default">Save</button>
-            <button type="submit" class="btn btn-default">Predict again</button>
+            <form action="/predictions" method="GET">
+                <button name="save" type="submit" class="btn btn-default" value="save">Save</button>
+            </form>
+            <form action="/new_prediction" method="GET">
+                <button name="notsave" type="submit" class="btn btn-default" value="notsave">Predict again</button>
+            </form>
+
         </div>
         <div><h1>Our analysis</h1></div>
 				<div class="row">
 						<div class="col-sm-6">
-<!--                draw graph here-->
+            data: [{{ H_1 }},{{ H_2 }},{{ H_3 }},{{ H_4 }},{{ H_5 }},{{ H_6 }},{{ H_7 }},{{ H_8 }},{{ H_9 }}]
+            data: [{{ A_1 }},{{ A_2 }},{{ A_3 }},{{ A_4 }},{{ A_5 }},{{ A_6 }},{{ A_7 }},{{ A_8 }},{{ A_9 }}]
+            <div style="width:500px;height:500px;" id="radar">
+                <canvas id="myChart"></canvas>
+            </div>
+            <!--引入 chartjs-->
+            <script src="../static/js/Chart.js"></script>
+
+
+            <script type="text/javascript">
+                // 设置数据和参数
+                var radarChartData = {
+                    labels: ['buildUpPlaySpeed','buildUpPlayDribbling','buildUpPlayPassing','chanceCreationPassing','chanceCreationCrossing','chanceCreationShooting','defencePressure','defenceAggression'],
+                    datasets: [
+                        {
+                            pointBorderColor:"#C064A7",//描点颜色
+                            pointBackgroundColor:"#fff",//描点背景颜色
+                            borderColor:"#C064A7",//画线颜色
+                            data:[{{ H_1 }},{{ H_2 }},{{ H_3 }},{{ H_4 }},{{ H_5 }},{{ H_6 }},{{ H_7 }},{{ H_8 }}]
+                        }
+                        ,
+                        {
+                            pointBorderColor:"#C064A7",//描点颜色
+                            pointBackgroundColor:"#A8FF24",//描点背景颜色
+                            borderColor:"#F9F900",//画线颜色
+                            data:[{{ A_1 }},{{ A_2 }},{{ A_3 }},{{ A_4 }},{{ A_5 }},{{ A_6 }},{{ A_7 }},{{ A_8 }}]
+                        }
+                    ]
+
+                };
+                //设置选项
+                var options = {
+                    legend:false,//数据项
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize:20,//Y轴间隔
+                            max:100,//Y轴最大值
+                            min:0,
+                            callback:function(value) { return value + '%'; }//Y轴格式化
+                        },
+                        angleLines:{
+                            display:false//雷达辐射轴
+                        },
+                        pointLabels:{
+                            fontSize:13//x轴文字
+                        },
+
+                    }
+                }
+                var ctx = document.getElementById("myChart").getContext("2d");
+                var myBarChart = new Chart(ctx, {type: 'radar',data: radarChartData});
+
+            </script>
 					   </div>
 				    <div class="col-sm-6">
 <!--                draw graph here-->
@@ -113,38 +182,8 @@
 				</div>
         
 </div>
-    </form>
+    
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
