@@ -33,7 +33,6 @@
     /*    filter: alpha(opacity=50);  For IE8 and earlier */
     }
 </style>
-
 <!--
 <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid bg" >
@@ -86,47 +85,36 @@
 					<div class="row">	
 						<div class="col-md-3">
 <!--           <div class="col-lg-3 col-md-6">-->
-                    <div class="panel panel-primary">
-                        <div class="panel-body" style="background-color: darkorange; height: 150px;">
-                            <div class="row" style="margin-top: 30px;" >
-                                <div class="col-xs-3">
-                                    <i class="fa fa-camera-retro fa-5x"></i> 
-                                </div>
-                                <div class="col-xs-9 text-center" style="margin-top:10px;">
-                                    <div style="font-family: 'Anton', sans-serif;font-size: 40px;">HOME</div>
-                                </div>
+                            <div class="col-xs-9 text-center" style="margin-top:10px;">
+                                <span class="w3-tag w3-xlarge w3-padding w3-red">
+                                    <i class="fa fa-soccer-ball-o" style="font-size:36px;color:black"></i>
+                                    <h1>Home</h1>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                        </div>
+                        
                 <div class="col-md-3" style="margin-top:40px">
                     <div class="form-group">
-                        <label for="H_name">H_name:</label>
-                        <input type="H_name" class="form-control" name="H_name">
+                        <label for="H_name">Home Name:</label>
+                        <input type="H_name" class="w3-input w3-border w3-round-large" name="H_name" placeholder="H_name">
                     </div>
                 </div>
 <!--				           <div class="col-lg-3 col-md-6">-->
-						<div class="col-md-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-body" style="background-color: aquamarine; height: 150px;">
-                            <div class="row" style="margin-top: 30px;" >
-                                <div class="col-xs-3">
-                                    <i class="fa fa-camera-retro fa-5x"></i> 
-                                </div>
-                                <div class="col-xs-9 text-center" style="margin-top:10px;">
-                                    <div style="font-family: 'Anton', sans-serif;font-size: 40px;">AWAY</div>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="col-xs-9 text-center" style="margin-top:10px;">
+                                <span class="w3-tag w3-xlarge w3-padding w3-green">
+                                    <i class="fa fa-soccer-ball-o" style="font-size:36px;color:black"></i>
+                                    <h1>Away</h1>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                </div>
                 <div class="col-md-3" style="margin-top:40px">
                     <div class="form-group">
-                        <label for="A_name">A_name:</label>
-                        <input type="A_name" class="form-control" name="A_name">
+                        <label for="A_name">Away Name:</label>
+                        <input type="A_name" class="form-control" name="A_name" placeholder="A_name">
                     </div>
                 </div>
-				    </div>
+                    </div>
         
 				<div class="row">
 					<div class="col-sm-3">
@@ -134,41 +122,41 @@
                     
                     <div class="form-group">
                         <label for="email">H_buildUpPlaySpeed:</label>
-                        <input type="H_buildUpPlaySpeed" class="form-control" name="H_buildUpPlaySpeed">
+                        <input type="H_buildUpPlaySpeed" class="form-control" name="H_buildUpPlaySpeed" placeholder="H_buildUpPlaySpeed">
                     </div>
                     <div class="form-group">
                         <label for="pwd">H_buildUpPlayDribbling:</label>
-                        <input type="H_buildUpPlayDribbling" class="form-control" name="H_buildUpPlayDribbling">
+                        <input type="H_buildUpPlayDribbling" class="form-control" name="H_buildUpPlayDribbling" placeholder="H_buildUpPlayDribbling">
                     </div>
                     <div class="form-group">
-                        <label for="email">A_buildUpPlayDribbling:</label>
-                        <input type="A_buildUpPlayDribbling" class="form-control" name="A_buildUpPlayDribbling">
+                        <label for="email">H_buildUpPlayPassing:</label>
+                      <input type="H_buildUpPlayPassing" class="form-control" name="H_buildUpPlayPassing" placeholder="H_buildUpPlayPassing">
                     </div>
                     <div class="form-group">
-                        <label for="pwd">A_buildUpPlaySpeed:</label>
-                        <input type="A_buildUpPlaySpeed" class="form-control" name="A_buildUpPlaySpeed">
+                        <label for="pwd">H_chanceCreationPassing:</label>
+                      <input type="H_chanceCreationPassing" class="form-control" name="H_chanceCreationPassing" placeholder="H_chanceCreationPassing">
                     </div>
                     
 <!--                    <button type="submit" class="btn btn-default">Submit</button>-->
 <!--					       </form>-->
-					</div>
-				    <div class="col-sm-3">
-<!--				        <form action="/action_page.php">-->
+                    </div>
+                    <div class="col-sm-3">
+<!--                        <form action="/action_page.php">-->
                     <div class="form-group">
-                      <label for="email">H_buildUpPlayPassing:</label>
-                      <input type="H_buildUpPlayPassing" class="form-control" name="H_buildUpPlayPassing">
+                      <label for="email">H_chanceCreationCrossing:</label>
+                        <input type="H_chanceCreationCrossing" class="form-control" name="H_chanceCreationCrossing" placeholder="H_chanceCreationCrossing">
                     </div>
                     <div class="form-group">
-                      <label for="pwd">H_chanceCreationPassing:</label>
-                      <input type="H_chanceCreationPassing" class="form-control" name="H_chanceCreationPassing">
+                      <label for="pwd">H_chanceCreationShooting:</label>
+                        <input type="H_chanceCreationShooting" class="form-control" name="H_chanceCreationShooting" placeholder="H_chanceCreationShooting">
                     </div>
                     <div class="form-group">
-                        <label for="email">A_buildUpPlayPassing:</label>
-                        <input type="A_buildUpPlayPassing" class="form-control" name="A_buildUpPlayPassing">
+                        <label for="email">H_defencePressure:</label>
+                        <input type="H_defencePressure" class="form-control" name="H_defencePressure" placeholder="H_defencePressure">
                     </div>
                     <div class="form-group">
-                        <label for="pwd">A_chanceCreationPassing:</label>
-                        <input type="A_chanceCreationPassing" class="form-control" name="A_chanceCreationPassing">
+                        <label for="pwd">H_defenceAggression:</label>
+                        <input type="H_defenceAggression" class="form-control" name="H_defenceAggression" placeholder="H_defenceAggression">
                     </div>
                     
 <!--                  <button type="submit" class="btn btn-default">Submit</button>-->
@@ -177,20 +165,20 @@
             <div class="col-sm-3">
 <!--								<form action="/action_page.php">-->
                     <div class="form-group">
-                        <label for="email">H_chanceCreationCrossing:</label>
-                        <input type="H_chanceCreationCrossing" class="form-control" name="H_chanceCreationCrossing">
+                        <label for="email">A_buildUpPlaySpeed:</label>
+                        <input type="A_buildUpPlaySpeed" class="form-control" name="A_buildUpPlaySpeed" placeholder="A_buildUpPlaySpeed">
                     </div>
                     <div class="form-group">
-                        <label for="pwd">H_chanceCreationShooting:</label>
-                        <input type="H_chanceCreationShooting" class="form-control" name="H_chanceCreationShooting">
+                        <label for="pwd">A_buildUpPlayDribbling:</label>
+                        <input type="A_buildUpPlayDribbling" class="form-control" name="A_buildUpPlayDribbling" placeholder="A_buildUpPlayDribbling">
                     </div>
                     <div class="form-group">
-                        <label for="email">A_chanceCreationCrossing:</label>
-                        <input type="A_chanceCreationCrossing" class="form-control" name="A_chanceCreationCrossing">
+                        <label for="email">A_buildUpPlayPassing:</label>
+                      <input type="A_buildUpPlayPassing" class="form-control" name="A_buildUpPlayPassing" placeholder="A_buildUpPlayPassing">
                     </div>
                     <div class="form-group">
-                        <label for="pwd">A_chanceCreationShooting:</label>
-                        <input type="A_chanceCreationShooting" class="form-control" name="A_chanceCreationShooting">
+                        <label for="pwd">A_chanceCreationPassing:</label>
+                        <input type="A_chanceCreationPassing" class="form-control" name="A_chanceCreationPassing" placeholder="A_chanceCreationPassing">
                     </div>
                     
 <!--                    <button type="submit" class="btn btn-default">Submit</button>-->
@@ -199,20 +187,20 @@
             <div class="col-sm-3">
 <!--								<form action="/action_page.php">-->
                     <div class="form-group">
-                        <label for="email">H_defencePressure:</label>
-                        <input type="H_defencePressure" class="form-control" name="H_defencePressure">
+                        <label for="email">A_chanceCreationCrossing:</label>
+                        <input type="A_chanceCreationCrossing" class="form-control" name="A_chanceCreationCrossing" placeholder="A_chanceCreationCrossing">
                     </div>
                     <div class="form-group">
-                        <label for="pwd">H_defenceAggression:</label>
-                        <input type="H_defenceAggression" class="form-control" name="H_defenceAggression">
+                        <label for="pwd">A_chanceCreationShooting:</label>
+                        <input type="A_chanceCreationShooting" class="form-control" name="A_chanceCreationShooting" placeholder="A_chanceCreationShooting">
                     </div>
                     <div class="form-group">
                         <label for="email">A_defencePressure:</label>
-                        <input type="A_defencePressure" class="form-control" name="A_defencePressure">
+                        <input type="A_defencePressure" class="form-control" name="A_defencePressure" placeholder="A_defencePressure">
                     </div>
                     <div class="form-group">
                         <label for="pwd">A_defenceAggression:</label>
-                        <input type="A_defenceAggression" class="form-control" name="A_defenceAggression">
+                        <input type="A_defenceAggression" class="form-control" name="A_defenceAggression" placeholder="A_defenceAggression">
                     </div>
                    
                     
@@ -222,6 +210,20 @@
         <div>
             <button type="submit" class="btn btn-default">Submit</button>
         </div>
+<br>
+Guidiance:<br>
+    the attributes input should be in range of 0-100 which would give a better performance.<br>
+    <br>
+    eg. the attributes for Chelsea are:<br>
+        buildUpPlaySpeed           60<br>
+        buildUpPlayDribbling       63<br>
+        buildUpPlayPassing         57<br>
+        chanceCreationPassing      47<br>
+        chanceCreationCrossing     54<br>
+        chanceCreationShooting     48<br>
+        defencePressure            46<br>
+        defenceAggression          43<br>
+
 </div>
     </form>
 </div>
